@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var auth = require("../controllers/AuthController.js");
-
-router.use('/api', require('./api'));
 // restrict index for logged in user only
 router.get('/', auth.home);
 

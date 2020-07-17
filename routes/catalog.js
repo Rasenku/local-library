@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var auth = require("../controllers/AuthController.js");
 
 
 // Require our controllers.
@@ -8,24 +7,6 @@ var book_controller = require('../controllers/bookController');
 var author_controller = require('../controllers/authorController');
 var genre_controller = require('../controllers/genreController');
 var book_instance_controller = require('../controllers/bookinstanceController');
-
-// // restrict index for logged in user only
-// router.get('/catalog', auth.home);
-//
-// // route to register page
-// router.get('/register', auth.register);
-//
-// // route for register action
-// router.post('/register', auth.doRegister);
-//
-// // route to login page
-// router.get('/login', auth.login);
-//
-// // route for login action
-// router.post('/login', auth.doLogin);
-//
-// // route for logout action
-// router.get('/logout', auth.logout);
 
 
 /// BOOK ROUTES ///

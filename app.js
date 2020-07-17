@@ -25,9 +25,6 @@ var app = express();
 
 
 
-//Configure isProduction variable
-const isProduction = process.env.NODE_ENV === 'production';
-
 
 // Set up mongoose connection
 var mongoose = require('mongoose');
@@ -48,7 +45,7 @@ var users = require('./routes/users');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');  //Import routes for "catalog" area of site
-var User = require('./models/User');
+
 
 
 // view engine setup
@@ -75,15 +72,15 @@ app.use('/catalog', catalogRouter);  // Add catalog routes to middleware chain.
 
 
 
-app.post('/login',
-  passport.authenticate('local'),
-  function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    res.redirect('/users/' + req.user.username);
-  });
-app.post('/login', passport.authenticate('local', { successRedirect:'/',
-                                                    failureRedirect: '/login' }));
+// app.post('/login',
+//   passport.authenticate('local'),
+//   function(req, res) {
+//     // If this function gets called, authentication was successful.
+//     // `req.user` contains the authenticated user.
+//     res.redirect('/users/' + req.user.username);
+//   });
+// app.post('/login', passport.authenticate('local', { successRedirect:'/',
+//                                                     failureRedirect: '/login' }));
 
 
 // The .set method allows us to configure various options with the Express framework.
@@ -95,26 +92,21 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
-  // Here we are creating a unique session identifier
-  secret: 'shhhhhhhhh',
-  resave: true,
-  saveUninitialized: true
-}));
+// app.use(session({
+//   // Here we are creating a unique session identifier
+//   secret: 'shhhhhhhhh',
+//   resave: false,
+//   saveUninitialized: false
+// }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', routes);
-
-
-
-
-require('./config/passport');
+var User = require('./models/User');
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
